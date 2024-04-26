@@ -24,27 +24,27 @@ export const dailiesSlice = createSlice({
         ],
     },
     reducers: {
-        setPool: (state, action) => {
+        dailySetPool: (state, action) => {
             state.dailyPool = action.payload;
         },
-        setCurrentDailies: (state, action) => {
+        dailySetCurrentTasks: (state, action) => {
             state.currentDailies = action.payload;
         },
-        toggleProgress: (state, action) => {
+        dailyToggleProgress: (state, action) => {
             let {index} = action.payload;
             let task = state.currentDailies[index].task;
             let progress = !(state.currentDailies[index].progress)
             state.currentDailies[index] = JSON.parse(`{"task": "${task}", "progress": ${progress}}`);
         },
-        editName: (state, action) => {
+        dailyEditName: (state, action) => {
             let {index} = action.payload;
             let {task} = action.payload;
             let progress = (state.currentDailies[index].progress)
-            state.channelList[index] = JSON.parse (`{"task": "${task}", "progress": ${progress}}`);
+            state.currentDailies[index] = JSON.parse (`{"task": "${task}", "progress": ${progress}}`);
         },
     }
 })
 
-export const { setPool, setCurrentDailies, toggleProgress, editName } = dailiesSlice.actions;
+export const { dailySetPool, dailySetCurrentTasks, dailyToggleProgress, dailyEditNameName } = dailiesSlice.actions;
 
 export default dailiesSlice.reducer;

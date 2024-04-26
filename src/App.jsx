@@ -1,57 +1,75 @@
 import { useState } from "react";
 import "./app.scss";
-
-import { useSelector } from "react-redux";
-import { map } from "lodash";
-import Checkbox from "./components/Checkbox";
-import Task from "./components/Task";
+import CurrentDailyTasks from "./pages/CurrentDailyTasks";
+import DailyTaskPool from "./pages/DailyTaskPool";
+import WeeklyTaskPool from "./pages/WeeklyTaskPool";
+import CurrentWeeklyTasks from "./pages/CurrentWeeklyTasks";
 
 function App() {
   const [view, setView] = useState("daily");
-  const { currentDailies } = useSelector((state) => state.dailies);
+  // const [tab, setTab] = useState(1)
 
   const renderView = () => {
     switch (view) {
       case "daily":
-        return (
-          <div className="tasks">
-            {currentDailies.map((item, i) => renderCurrentDailies(item, i))}
-          </div>
-        );
+        return <CurrentDailyTasks />;
+
+      case "dailyPool":
+        return <DailyTaskPool />;
+
+      case "weekly":
+        return <CurrentWeeklyTasks />;
+
+      case "weeklyPool":
+        return <WeeklyTaskPool />;
+
       default:
-        return (
-          <div className="tasks">
-            {currentDailies.map((item, i) => renderCurrentDailies(item, i))}
-          </div>
-        );
+        return <CurrentDailyTasks />;
     }
   };
-
-  const renderCurrentDailies = (val, i) => {
-    return (
-      <div className="currentDailyItem" key={val.task}>
-        {/* <div className="task">{val.task}</div> */}
-        <Task index={i} />
-        <div>
-          <Checkbox index={i} />
-        </div>
-      </div>
-    );
-  };
-
-  console.log(currentDailies);
   return (
     <div className="section">
       <div className="leftContainer">
         <div className="profile"></div>
-        <div className="dailyWeekly"></div>
-        <div className="dailyWeekly"></div>
+
+        <div
+          className={`${view === "daily" ? "currentTab" : ""} dailyWeekly`}
+          onClick={() => setView("daily")}
+        >
+          Dailies
+          <div
+            className={`${view === "dailyPool" ? "currentTab" : ""} edit`}
+            onClick={(e) => {
+              setView("dailyPool");
+              e.stopPropagation();
+            }}
+          >
+            <div className={`${view === "dailyPool" ? "currentEdit" : ""}`}>
+              Edit
+            </div>
+          </div>
+        </div>
+
+        <div
+          className={`${view === "weekly" ? "currentTab" : ""} dailyWeekly`}
+          onClick={() => setView("weekly")}
+        >
+          Weeklies
+          <div
+            className={`${view === "weeklyPool" ? "currentTab" : ""} edit`}
+            onClick={(e) => {
+              setView("weeklyPool");
+              e.stopPropagation();
+            }}
+          >
+            <div className={`${view === "weeklyPool" ? "currentEdit" : ""}`}>
+              Edit
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="rightContainer">
-        <div className="progress"></div>
-        {renderView()}
-      </div>
+      {renderView()}
     </div>
   );
 }
