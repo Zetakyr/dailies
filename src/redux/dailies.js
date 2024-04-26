@@ -5,8 +5,8 @@ export const dailiesSlice = createSlice({
     initialState: {
         dailyPool: [
             [
-                {task: "Wash your face"},
-                {task: "Do 10 push-ups"},
+                // {task: "Wash your face"},
+                // {task: "Do 10 push-ups"},
             ],
             [
                 {task: "Cook an egg"}, 
@@ -39,8 +39,7 @@ export const dailiesSlice = createSlice({
         dailyEditName: (state, action) => {
             let {index} = action.payload;
             let {task} = action.payload;
-            let progress = (state.currentDailies[index].progress)
-            state.currentDailies[index] = JSON.parse (`{"task": "${task}", "progress": ${progress}}`);
+            state.dailyPool[index] = JSON.parse (`{"task": "${task}", "progress": ${progress}}`);
         },
     }
 })

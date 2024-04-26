@@ -102,10 +102,29 @@ body{
     justify-content: space-between;
     margin-right: 5%;
 
+    .rc-Child{
+      display: flex;
+      justify-content: space-between;
+    }
+
     .progress{
-        width: 80%;
+        width: 75%;
+        padding: 0 2.5%;
         height: 100px;
         background-color: rgb(91, 91, 115);
+        display: flex;
+        align-items: center;
+
+        .actualProgress {
+          height: 80%;
+          background-color: rgb(255, 221, 0);
+        }
+    }
+
+    .resetComplete {
+      width: 15%;
+      height: 100px;
+      background-color: rgb(83, 190, 92);
     }
 
     .tasks {
