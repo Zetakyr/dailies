@@ -2,13 +2,18 @@ import React, { useState, useEffect } from "react";
 import CurrentTask from "../components/CurrentTask";
 
 import { useSelector, useDispatch } from "react-redux";
-import { dailySetCurrentTasks, dailyToggleProgress } from "../redux/dailies";
+import {
+  dailySetCurrentTasks,
+  dailyToggleProgress,
+  toggleMandatoryComplete,
+} from "../redux/dailies";
 
 const CurrentDailyTasks = () => {
   const { currentDailies } = useSelector((state) => state.dailies);
   const { dailyPool } = useSelector((state) => state.dailies);
   const dispatch = useDispatch();
   const [progressBar, setProgressBar] = useState(0);
+  const { mandatoryComplete } = useSelector((state) => state.dailies);
 
   let currentDailyCount = currentDailies.length;
   let progressCount = 0;
@@ -39,13 +44,16 @@ const CurrentDailyTasks = () => {
     }
   }
 
-  const getNewDailies = () => {
+  const getMandatoryDailies = () => {
     let firstDailies = [...dailyPool[0]];
+    console.log(firstDailies);
 
     if (firstDailies.length < 1) {
       firstDailies = [...dailyPool[1]];
+      console.log(firstDailies);
       shuffleArray(firstDailies);
       // firstDailies = [...firstDailies];
+      console.log("no mandatories. Gathering from optional.");
     }
 
     if (firstDailies.length > 0) {
@@ -53,9 +61,13 @@ const CurrentDailyTasks = () => {
     }
   };
 
-  // const [currentDailies, setCurrentDailies] = useState(getNewDailies());
-
-  // getNewDailies();
+  const getOptionalDailies = () => {
+    let newDailies = [...dailyPool[1]];
+    shuffleArray(newDailies);
+    if (newDailies.length > 0) {
+      setDailies(newDailies);
+    }
+  };
 
   const toggleTick = (index) => {
     dispatch(dailyToggleProgress({ index }));
@@ -79,15 +91,32 @@ const CurrentDailyTasks = () => {
     <div className="rightContainer">
       <div className="rc-Child">
         <div className="progress">
-          <div
-            className="actualProgress"
-            style={{ width: `${progressBar * 100}%` }}
-          ></div>
+          <div className="actualProgressContainer">
+            <div
+              className="actualProgress"
+              style={{
+                width: `${progressBar * 100}%`,
+                backgroundColor: progressBar === 1 ? "rgb(45, 218, 50)" : "",
+              }}
+            ></div>
+          </div>
         </div>
         <div
-          className="resetComplete"
+          className={`resetComplete ${progressBar === 1 ? "rcComplete" : ""}`}
           onClick={() => {
-            getNewDailies();
+            if (progressBar === 1) {
+              if (mandatoryComplete) {
+                getMandatoryDailies();
+                console.log("getting mandatory");
+              } else {
+                getOptionalDailies();
+                console.log("getting optional");
+              }
+              dispatch(toggleMandatoryComplete());
+            } else {
+              console.log("unfinished.");
+            }
+            // getMandatoryDailies();
           }}
         ></div>
       </div>

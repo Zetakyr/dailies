@@ -5,8 +5,8 @@ export const dailiesSlice = createSlice({
     initialState: {
         dailyPool: [
             [
-                // {task: "Wash your face"},
-                // {task: "Do 10 push-ups"},
+                {task: "Wash your face"},
+                {task: "Do 10 push-ups"},
             ],
             [
                 {task: "Cook an egg"}, 
@@ -17,11 +17,10 @@ export const dailiesSlice = createSlice({
             ],
         ],
         currentDailies: [
-            {task: "Task 1" , progress: false},
-            {task: "Task 2" , progress: false},
-            {task: "Task 3" , progress: false},
-            {task: "Task 4" , progress: false},
+            {task: "Wash your face" , progress: false},
+            {task: "Do 10 push-ups" , progress: false},
         ],
+        mandatoryComplete: false,
     },
     reducers: {
         dailySetPool: (state, action) => {
@@ -41,9 +40,13 @@ export const dailiesSlice = createSlice({
             let {task} = action.payload;
             state.dailyPool[index] = JSON.parse (`{"task": "${task}", "progress": ${progress}}`);
         },
+        toggleMandatoryComplete: (state) => {
+            state.mandatoryComplete = !state.mandatoryComplete;
+            console.log(state.mandatoryComplete);
+        }
     }
 })
 
-export const { dailySetPool, dailySetCurrentTasks, dailyToggleProgress, dailyEditNameName } = dailiesSlice.actions;
+export const { dailySetPool, dailySetCurrentTasks, dailyToggleProgress, dailyEditNameName, toggleMandatoryComplete } = dailiesSlice.actions;
 
 export default dailiesSlice.reducer;
