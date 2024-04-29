@@ -1,6 +1,12 @@
 body{
     margin:0;
   }
+
+  
+  $base-color: rgb(110, 110, 158);
+  $dark-base-color: rgb(94, 94, 138);
+
+  $clicked-color: rgb(0, 149, 255);
   
   .section {
     height: 100vh;
@@ -30,12 +36,6 @@ body{
         border-radius: 100%;
     }
 
-    $base-color: rgb(110, 110, 158);
-    $dark-base-color: rgb(94, 94, 138);
-
-    $clicked-color: rgb(0, 149, 255);
-
-
     .dailyWeekly{
         background-color: $base-color;
         height: 150px;
@@ -49,6 +49,8 @@ body{
         overflow: hidden;
         text-align: center;
         cursor: pointer;
+        transition: transform 0.2s , background-color 0.2s;
+
 
         .edit {
           border-style: solid;
@@ -62,6 +64,7 @@ body{
           width: 100%;
           background-color: $base-color;
           padding: 20px;
+          transition: background-color 0.2s;
         }
 
         .currentTab{
@@ -78,6 +81,7 @@ body{
       background-color: $clicked-color;
       transform: translate(2px, 2px);
       box-shadow: 3px 8px 3px 1px rgba(17, 14, 17, 0.689);
+      
 
       .edit {
         position: relative;
@@ -107,6 +111,32 @@ body{
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      .mandatoryOptional {
+        width: 49.5%;
+        background-color: $base-color;
+        height: 100px;
+        cursor: pointer;
+        box-shadow: 4px 9px 3px 1px rgba(63, 49, 67, 0.619);
+        
+        transition: transform 0.2s, background-color 0.2s;
+
+      }
+
+      .currentTab{
+        background-color: $clicked-color;
+        transform: translate(2px, 2px);
+        box-shadow: 2px 7px 3px 1px rgba(17, 14, 17, 0.689);
+      }
+
+      .mandatory{
+        border-top-left-radius: 80px;
+      }
+
+      .optional{
+        border-top-right-radius: 80px;
+
+      }
     }
 
     .progress{
