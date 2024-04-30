@@ -237,5 +237,37 @@ body{
 
           }
         }
+
+        .taskInputs {
+          height: 80%;
+          overflow: hidden;
+          width: 90%;
+          overflow-y: scroll;
+          margin: auto;
+
+
+          .taskInput {
+            background-color: rgb(255, 255, 255);
+            display: flex;
+            align-items: center;
+            height: 15%;
+            width: 80%;
+            padding: 3%;
+            margin: 5%;
+            box-sizing: border-box;
+            border-style: solid;
+            border-color: rgb(77, 71, 78);
+            border-radius: 10px;
+            box-shadow: inset 0px 0px 20px 5px rgb(168, 151, 187);
+          }
+        }
     }
   }
+
+  
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  // align-items: center;
+}
