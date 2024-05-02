@@ -118,7 +118,9 @@ const CurrentDailyTasks = () => {
             }
             // getMandatoryDailies();
           }}
-        ></div>
+        >
+          Complete
+        </div>
       </div>
 
       <div className="tasks">

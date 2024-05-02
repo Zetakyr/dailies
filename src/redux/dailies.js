@@ -25,6 +25,7 @@ export const dailiesSlice = createSlice({
     reducers: {
         dailySetPool: (state, action) => {
             state.dailyPool = action.payload;
+            console.log(state.dailyPool);
         },
         dailySetCurrentTasks: (state, action) => {
             state.currentDailies = action.payload;

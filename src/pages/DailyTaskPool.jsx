@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useForm, useFieldArray } from "react-hook-form";
+import { dailySetPool } from "../redux/dailies";
 
 const DailyTaskPool = () => {
   const [view, setView] = useState("mandatory");
@@ -8,11 +9,15 @@ const DailyTaskPool = () => {
   const [mandatoryTasks, setMandatoryTasks] = useState(dailyPool[0]);
   const [optionalTasks, setOptionalTasks] = useState(dailyPool[1]);
   const { control, register } = useForm();
+  const dispatch = useDispatch();
+
+  const [tempDailyPool, setTempDailyPool] = useState([...dailyPool]);
 
   const {
     fields: fieldsMandatory,
     remove: removeMandatory,
     append: appendMandatory,
+    update: updateMandatory,
   } = useFieldArray({ control, name: "mandatories" });
 
   const {
@@ -32,25 +37,39 @@ const DailyTaskPool = () => {
     }
   }, []);
 
+  useEffect(() => {
+    setTempDailyPool([fieldsMandatory, fieldsOptional]);
+  }, [fieldsOptional, fieldsMandatory]);
+
   const renderTasks = () => {
     switch (view) {
       case "optional":
-        // return <>{optionalTasks.map((item, i) => renderTask(item, i))}</>;
         return (
           <>
             {fieldsOptional.map((field, index) => (
-              <input
-                className="taskInput"
-                key={field.id}
-                {...register(`optionals.${index}.value`, {
-                  // onBlur: (e) => console.log(e.target.value),
-                  onBlur: (e) =>
-                    updateOptional(index, { task: e.target.value }),
-                })}
-                placeholder="Task"
-                defaultValue={field.task}
-                // onBlur={console.log(field.task)}
-              />
+              <div className="taskRow" key={[field, index]}>
+                <input
+                  className="taskInput"
+                  key={field.id}
+                  {...register(`optionals.${index}.value`, {
+                    onBlur: (e) => {
+                      if (e.target.value != "") {
+                        updateOptional(index, { task: e.target.value });
+                      } else {
+                        removeOptional(index);
+                      }
+                    },
+                  })}
+                  placeholder="Task"
+                  defaultValue={field.task}
+                />
+                <div
+                  className="removeButton"
+                  onClick={() => removeOptional(index)}
+                >
+                  Remove
+                </div>
+              </div>
             ))}
           </>
         );
@@ -59,13 +78,29 @@ const DailyTaskPool = () => {
         return (
           <>
             {fieldsMandatory.map((field, index) => (
-              <input
-                className="taskInput"
-                key={field.id}
-                {...register(`mandatories.${index}.value`)}
-                placeholder="Task"
-                defaultValue={field.task}
-              />
+              <div className="taskRow" key={[field, index]}>
+                <input
+                  className="taskInput"
+                  key={field.id}
+                  {...register(`mandatories.${index}.value`, {
+                    onBlur: (e) => {
+                      if (e.target.value != "") {
+                        updateMandatory(index, { task: e.target.value });
+                      } else {
+                        removeMandatory(index);
+                      }
+                    },
+                  })}
+                  placeholder="Task"
+                  defaultValue={field.task}
+                />
+                <div
+                  className="removeButton"
+                  onClick={() => removeMandatory(index)}
+                >
+                  Remove
+                </div>
+              </div>
             ))}
           </>
         );
@@ -82,7 +117,9 @@ const DailyTaskPool = () => {
           onClick={() => {
             setView("mandatory");
           }}
-        ></div>
+        >
+          Mandatory
+        </div>
         <div
           className={`mandatoryOptional optional ${
             view === "optional" ? "currentTab" : ""
@@ -90,18 +127,48 @@ const DailyTaskPool = () => {
           onClick={() => {
             setView("optional");
           }}
-        ></div>
+        >
+          Optional
+        </div>
       </div>
-      <div className="tasks center">
-        <div className="taskInputs">{renderTasks()}</div>
+      <div className="tasks center tasksShorter">
+        <div className="taskInputs">
+          {renderTasks()}
+          <div
+            className="addButton"
+            onClick={() => {
+              if (view == "mandatory") {
+                appendMandatory({ task: "" });
+              } else if (view == "optional") {
+                appendOptional({ task: "" });
+              }
+            }}
+          >
+            Add
+          </div>
+        </div>
       </div>
-      <div
-        className="testButton"
-        onClick={() => {
-          console.table(fieldsOptional);
-        }}
-      >
-        click me
+      <div className="rc-footer">
+        <div
+          className="submitButton"
+          onClick={() => {
+            console.table(fieldsOptional);
+            console.log([fieldsMandatory, fieldsOptional]);
+            for (let i = fieldsMandatory.length - 1; i >= 0; i--) {
+              if (fieldsMandatory[i].task == "") {
+                removeMandatory(i);
+              }
+            }
+            for (let i = fieldsOptional.length - 1; i >= 0; i--) {
+              if (fieldsOptional[i].task == "") {
+                removeOptional(i);
+              }
+            }
+            dispatch(dailySetPool(tempDailyPool));
+          }}
+        >
+          Save
+        </div>
       </div>
     </div>
   );

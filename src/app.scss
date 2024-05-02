@@ -14,19 +14,14 @@ body{
     display: flex;
     justify-content: space-around;
     align-items: center;
-
-    // transform: rotate(45deg);
-    // transform: rotate(90deg);
   }
   
   .leftContainer{
-    // background-color: black;
     height: 80%;
     width: 15%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    // align-items: center;
     margin-left: 5%;
 
     .profile{
@@ -118,6 +113,9 @@ body{
         height: 100px;
         cursor: pointer;
         box-shadow: 4px 9px 3px 1px rgba(63, 49, 67, 0.619);
+        display: flex;
+        justify-content: center;
+        align-items: center;
         
         transition: transform 0.2s, background-color 0.2s;
 
@@ -179,7 +177,9 @@ body{
       background-color: rgb(92, 119, 94);
       border-radius: 15px;
       transition: background-color 0.3s ease-in-out;
-
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .rcComplete {
@@ -190,7 +190,11 @@ body{
     .tasks {
         width: 100%;
         height: 80%;
+        max-height: 80%;
+        min-height: 80%;
+
         background-color: rgb(167, 154, 173);
+        margin-top: 2.715%;
 
         .currentDailyItem {
           display: flex;
@@ -238,10 +242,10 @@ body{
           }
         }
 
-        .taskInputs {
+        .taskInputs { 
           height: 80%;
           overflow: hidden;
-          width: 90%;
+          width: 95%;
           overflow-y: scroll;
           margin: auto;
 
@@ -250,15 +254,36 @@ body{
             background-color: rgb(255, 255, 255);
             display: flex;
             align-items: center;
-            height: 15%;
+            height: 60%;
             width: 80%;
             padding: 3%;
-            margin: 5%;
+            margin-top: 2%;
+            margin-bottom: 2%;
+            margin-left: 0;
+            margin-right: 5%;
             box-sizing: border-box;
             border-style: solid;
             border-color: rgb(77, 71, 78);
             border-radius: 10px;
-            box-shadow: inset 0px 0px 20px 5px rgb(168, 151, 187);
+            box-shadow: inset 0px 0px 10px 3px rgb(105, 97, 179);
+            box-sizing: border-box;
+            font-size: 1em;
+          }
+
+          .taskRow{
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 20%;
+
+            .removeButton{
+              height: 40px;
+              // width: 40px;
+              padding: 3px;
+              background-color: #fff;
+              cursor: pointer;
+
+            }
           }
         }
     }
@@ -270,4 +295,39 @@ body{
   flex-direction: column;
   justify-content: center;
   // align-items: center;
+}
+
+.rc-footer{
+  height: 10%;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.submitButton {
+  background-color: rgb(0, 240, 0);
+  width: 10%;
+  padding: 5px;
+  margin: 4px;
+  margin-right: 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.addButton {
+  width: 10%;
+  padding: 5px;
+  margin-top: 4px;
+  background-color: rgb(142, 201, 255);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tasksShorter {
+  height: 70% !important;
+  // background-color: red !important;
+  // transform: translate(100px);
 }
