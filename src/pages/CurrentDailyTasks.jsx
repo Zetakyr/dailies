@@ -14,6 +14,9 @@ const CurrentDailyTasks = () => {
   const dispatch = useDispatch();
   const [progressBar, setProgressBar] = useState(0);
   const { mandatoryComplete } = useSelector((state) => state.dailies);
+  const currentDate = new Date();
+
+  console.log(currentDate.toDateString());
 
   let currentDailyCount = currentDailies.length;
   let progressCount = 0;

@@ -21,6 +21,7 @@ export const dailiesSlice = createSlice({
             {task: "Do 10 push-ups" , progress: false},
         ],
         mandatoryComplete: false,
+        dailyStatistics: [],
     },
     reducers: {
         dailySetPool: (state, action) => {
@@ -44,6 +45,16 @@ export const dailiesSlice = createSlice({
         toggleMandatoryComplete: (state) => {
             state.mandatoryComplete = !state.mandatoryComplete;
             console.log(state.mandatoryComplete);
+        },
+        dailyAddDate: (state, action) => {
+            state.dailyStatistics.push(action.payload);
+            console.log(state.dailyStatistics);
+        },
+        dailyEditDate: (state, action) => {
+            let {date} = action.payload;
+            let {status} = action.payload;
+            const index = state.dailyStatistics.findIndex((element) => element.date === date);
+            state.dailyStatistics[index] = JSON.parse (`{"date": "${date}", "status": "${status}"}`);
         }
     }
 })
