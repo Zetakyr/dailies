@@ -4,6 +4,7 @@ import CurrentDailyTasks from "./pages/CurrentDailyTasks";
 import DailyTaskPool from "./pages/DailyTaskPool";
 import WeeklyTaskPool from "./pages/WeeklyTaskPool";
 import CurrentWeeklyTasks from "./pages/CurrentWeeklyTasks";
+import Profile from "./pages/Profile";
 
 function App() {
   const [view, setView] = useState("daily");
@@ -23,6 +24,9 @@ function App() {
       case "weeklyPool":
         return <WeeklyTaskPool />;
 
+      case "profile":
+        return <Profile />;
+
       default:
         return <CurrentDailyTasks />;
     }
@@ -30,7 +34,7 @@ function App() {
   return (
     <div className="section">
       <div className="leftContainer">
-        <div className="profile"></div>
+        <div className="profile" onClick={() => setView("profile")}></div>
 
         <div
           className={`${view === "daily" ? "currentTab" : ""} dailyWeekly`}

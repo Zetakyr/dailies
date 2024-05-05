@@ -22,6 +22,7 @@ export const dailiesSlice = createSlice({
         ],
         mandatoryComplete: false,
         dailyStatistics: [],
+        dailyPreviousDate: ""
     },
     reducers: {
         dailySetPool: (state, action) => {
@@ -46,6 +47,9 @@ export const dailiesSlice = createSlice({
             state.mandatoryComplete = !state.mandatoryComplete;
             console.log(state.mandatoryComplete);
         },
+        resetMandatoryComplete: (state) => {
+            state.mandatoryComplete = false;
+        },
         dailyAddDate: (state, action) => {
             state.dailyStatistics.push(action.payload);
             console.log(state.dailyStatistics);
@@ -54,11 +58,16 @@ export const dailiesSlice = createSlice({
             let {date} = action.payload;
             let {status} = action.payload;
             const index = state.dailyStatistics.findIndex((element) => element.date === date);
-            state.dailyStatistics[index] = JSON.parse (`{"date": "${date}", "status": "${status}"}`);
+            state.dailyStatistics[index] = JSON.parse (`{"date": "${date}", "status": ${status}}`);
+            // console.log(state.dailyStatistics);
+        },
+        dailySetPreviousDate: (state, action) => {
+            state.dailyPreviousDate = action.payload;
+            console.log(state.dailyPreviousDate)
         }
     }
 })
 
-export const { dailySetPool, dailySetCurrentTasks, dailyToggleProgress, dailyEditNameName, toggleMandatoryComplete } = dailiesSlice.actions;
+export const { dailySetPool, dailySetCurrentTasks, dailyToggleProgress, dailyEditNameName, toggleMandatoryComplete, resetMandatoryComplete, dailyAddDate, dailyEditDate, dailySetPreviousDate } = dailiesSlice.actions;
 
 export default dailiesSlice.reducer;

@@ -3,8 +3,12 @@ import CurrentTask from "../components/CurrentTask";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
+  dailyAddDate,
+  dailyEditDate,
   dailySetCurrentTasks,
+  dailySetPreviousDate,
   dailyToggleProgress,
+  resetMandatoryComplete,
   toggleMandatoryComplete,
 } from "../redux/dailies";
 
@@ -14,9 +18,10 @@ const CurrentDailyTasks = () => {
   const dispatch = useDispatch();
   const [progressBar, setProgressBar] = useState(0);
   const { mandatoryComplete } = useSelector((state) => state.dailies);
+  const { dailyPreviousDate } = useSelector((state) => state.dailies);
   const currentDate = new Date();
 
-  console.log(currentDate.toDateString());
+  // console.log(currentDate.toDateString());
 
   let currentDailyCount = currentDailies.length;
   let progressCount = 0;
@@ -72,6 +77,20 @@ const CurrentDailyTasks = () => {
     }
   };
 
+  const newDayStart = () => {
+    dispatch(resetMandatoryComplete());
+    getMandatoryDailies();
+  };
+
+  useEffect(() => {
+    if (currentDate.toDateString() != dailyPreviousDate) {
+      console.log(currentDate.toDateString());
+      console.log(dailyPreviousDate);
+      dispatch(dailySetPreviousDate(currentDate.toDateString()));
+      newDayStart();
+    }
+  }, []);
+
   const toggleTick = (index) => {
     dispatch(dailyToggleProgress({ index }));
   };
@@ -109,13 +128,25 @@ const CurrentDailyTasks = () => {
           onClick={() => {
             if (progressBar === 1) {
               if (mandatoryComplete) {
-                getMandatoryDailies();
+                // getMandatoryDailies();
+                dispatch(
+                  dailyEditDate({ date: currentDate.toDateString(), status: 2 })
+                );
                 console.log("getting mandatory");
               } else {
                 getOptionalDailies();
+                dispatch(
+                  dailyAddDate(
+                    JSON.parse(
+                      `{"date": "${currentDate.toDateString()}", "status": 1}`
+                    )
+                  )
+                );
                 console.log("getting optional");
+                dispatch(toggleMandatoryComplete());
               }
-              dispatch(toggleMandatoryComplete());
+              // dispatch(toggleMandatoryComplete());
+              console.log(mandatoryComplete);
             } else {
               console.log("unfinished.");
             }
