@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CurrentTask from "../components/CurrentTask";
+import Modal from "react-modal";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -20,6 +21,8 @@ const CurrentDailyTasks = () => {
   const { mandatoryComplete } = useSelector((state) => state.dailies);
   const { dailyPreviousDate } = useSelector((state) => state.dailies);
   const currentDate = new Date();
+
+  const [showModal, setShowModal] = useState(false);
 
   // console.log(currentDate.toDateString());
 
@@ -111,6 +114,35 @@ const CurrentDailyTasks = () => {
 
   return (
     <div className="rightContainer">
+      <Modal
+        appElement={document.getElementById("root")}
+        shouldCloseOnOverlayClick={true}
+        shouldCloseOnEsc={true}
+        className="modal"
+        overlayClassName="overlay"
+        isOpen={showModal}
+      >
+        Are you sure you want to reset today's dailies?
+        <div className="modalChoices">
+          <button
+            className="closeModal button"
+            onClick={() => {
+              setShowModal(false);
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            className="dangerChoice"
+            onClick={() => {
+              newDayStart();
+              setShowModal(false);
+            }}
+          >
+            Reset!
+          </button>
+        </div>
+      </Modal>
       <div className="rc-Child">
         <div className="progress">
           <div className="actualProgressContainer">
@@ -123,37 +155,45 @@ const CurrentDailyTasks = () => {
             ></div>
           </div>
         </div>
-        <div
-          className={`resetComplete ${progressBar === 1 ? "rcComplete" : ""}`}
-          onClick={() => {
-            if (progressBar === 1) {
-              if (mandatoryComplete) {
-                // getMandatoryDailies();
-                dispatch(
-                  dailyEditDate({ date: currentDate.toDateString(), status: 2 })
-                );
-                console.log("getting mandatory");
-              } else {
-                getOptionalDailies();
-                dispatch(
-                  dailyAddDate(
-                    JSON.parse(
-                      `{"date": "${currentDate.toDateString()}", "status": 1}`
+        <div className="resetCompleteContainer">
+          <div className="reset" onClick={() => setShowModal(true)}>
+            reset
+          </div>
+          <div
+            className={`complete ${progressBar === 1 ? "cCompleted" : ""}`}
+            onClick={() => {
+              if (progressBar === 1) {
+                if (mandatoryComplete) {
+                  // getMandatoryDailies();
+                  dispatch(
+                    dailyEditDate({
+                      date: currentDate.toDateString(),
+                      status: 2,
+                    })
+                  );
+                  console.log("getting mandatory");
+                } else {
+                  getOptionalDailies();
+                  dispatch(
+                    dailyAddDate(
+                      JSON.parse(
+                        `{"date": "${currentDate.toDateString()}", "status": 1}`
+                      )
                     )
-                  )
-                );
-                console.log("getting optional");
-                dispatch(toggleMandatoryComplete());
+                  );
+                  console.log("getting optional");
+                  dispatch(toggleMandatoryComplete());
+                }
+                // dispatch(toggleMandatoryComplete());
+                console.log(mandatoryComplete);
+              } else {
+                console.log("unfinished.");
               }
-              // dispatch(toggleMandatoryComplete());
-              console.log(mandatoryComplete);
-            } else {
-              console.log("unfinished.");
-            }
-            // getMandatoryDailies();
-          }}
-        >
-          Complete
+              // getMandatoryDailies();
+            }}
+          >
+            Complete
+          </div>
         </div>
       </div>
 

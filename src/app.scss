@@ -171,18 +171,40 @@ body{
 
     }
 
-    .resetComplete {
-      width: 15%;
+    .resetCompleteContainer {
+      width: 30%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+    }
+
+    .reset {
+      height: 50%;
+      background-color: rgb(207, 63, 63);
+      border-radius: 15px;
+      padding: 0 10%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+
+    }
+
+    .complete {
+      // width: 15%;
       height: 50%;
       background-color: rgb(92, 119, 94);
       border-radius: 15px;
+      padding: 0 10%;
+
       transition: background-color 0.3s ease-in-out;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
-    .rcComplete {
+    .cCompleted {
       background-color: rgb(83, 190, 92);
       cursor: pointer;
     }
@@ -330,4 +352,102 @@ body{
   height: 70% !important;
   // background-color: red !important;
   // transform: translate(100px);
+}
+
+.modal {
+  position: fixed;
+  background-color: rgb(82, 82, 95);
+  color: white;
+  font-size: 3vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 40%;
+  padding: 3vw;
+  border-radius: 15px;
+  box-shadow: -10px 10px 10px #2b0535a8;
+  outline: none !important;
+
+  .button {
+    background-color: rgb(93, 106, 216);
+    color: white;
+    cursor: pointer;
+    user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+    outline: none !important;
+    text-decoration: none;
+}
+
+.button:hover {
+    background-color: rgb(89, 99, 189);
+}
+
+.button:active {
+    background-color: rgb(84, 93, 170);
+    border: 0
+}
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(15px);
+  background-color: rgba(31, 30, 39, 0.341);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+}
+
+.modalChoices {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.closeModal {
+  margin: 40px 10px 10px 10px;
+  display: flex;
+  width: 100%;
+  height: 4vh;
+  align-items: center;
+  justify-content: center;
+  font-size: 3vh;
+  border: 0;
+}
+
+.dangerChoice {
+  background-color: rgb(216, 93, 93);
+  margin: 40px 10px 10px 10px;
+  display: flex;
+  width: 100%;
+  height: 4vh;
+  align-items: center;
+  justify-content: center;
+  font-size: 3vh;
+  border: 0;
+
+    color: white;
+    cursor: pointer;
+    user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+    outline: none !important;
+    text-decoration: none;
+}
+
+.dangerChoice:hover {
+  background-color: rgb(187, 88, 88);
+}
+
+.dangerChoice:active {
+  background-color: rgb(168, 85, 85);
+  border: 0
 }
