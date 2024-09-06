@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CurrentTask from "../components/CurrentTask";
 import Modal from "react-modal";
+import dayjs from "dayjs"; 
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -20,11 +21,11 @@ const CurrentDailyTasks = () => {
   const [progressBar, setProgressBar] = useState(0);
   const { mandatoryComplete } = useSelector((state) => state.dailies);
   const { dailyPreviousDate } = useSelector((state) => state.dailies);
-  const currentDate = new Date();
+  const currentDate = new dayjs();
 
   const [showModal, setShowModal] = useState(false);
 
-  // console.log(currentDate.toDateString());
+  let currentDateString = ("y" + currentDate.year() + "m" + (currentDate.month() + 1) + "d" + currentDate.date() + "w" + currentDate.day());
 
   let currentDailyCount = currentDailies.length;
   let progressCount = 0;
@@ -86,10 +87,10 @@ const CurrentDailyTasks = () => {
   };
 
   useEffect(() => {
-    if (currentDate.toDateString() != dailyPreviousDate) {
-      console.log(currentDate.toDateString());
+    if (currentDateString != dailyPreviousDate) {
+      // console.log(currentDate.toDateString());
       console.log(dailyPreviousDate);
-      dispatch(dailySetPreviousDate(currentDate.toDateString()));
+      dispatch(dailySetPreviousDate(currentDateString));
       newDayStart();
     }
   }, []);
@@ -167,7 +168,9 @@ const CurrentDailyTasks = () => {
                   // getMandatoryDailies();
                   dispatch(
                     dailyEditDate({
-                      date: currentDate.toDateString(),
+                      year: currentDate.year(),
+                      month: currentDate.month(),
+                      day: currentDate.date(),
                       status: 2,
                     })
                   );
@@ -176,9 +179,11 @@ const CurrentDailyTasks = () => {
                   getOptionalDailies();
                   dispatch(
                     dailyAddDate(
-                      JSON.parse(
-                        `{"date": "${currentDate.toDateString()}", "status": 1}`
-                      )
+                      {year: currentDate.year(), 
+                      month: currentDate.month(), 
+                      day: currentDate.date(), 
+                      dayOfWeek: currentDate.day(), 
+                      status: 1}
                     )
                   );
                   console.log("getting optional");

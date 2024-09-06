@@ -21,7 +21,7 @@ export const dailiesSlice = createSlice({
             {task: "Do 10 push-ups" , progress: false},
         ],
         mandatoryComplete: false,
-        dailyStatistics: [],
+        dailyStatistics: {},
         dailyPreviousDate: ""
     },
     reducers: {
@@ -51,15 +51,24 @@ export const dailiesSlice = createSlice({
             state.mandatoryComplete = false;
         },
         dailyAddDate: (state, action) => {
-            state.dailyStatistics.push(action.payload);
+            let {year, month, day, dayOfWeek, status} = action.payload;
+            if (!state.dailyStatistics[year]) {
+                state.dailyStatistics[year] = {};
+            }
+            if (!state.dailyStatistics[year][month]) {
+                state.dailyStatistics[year][month] = [];
+            }
+            state.dailyStatistics[year][month].push({day, dayOfWeek, status});
             console.log(state.dailyStatistics);
         },
         dailyEditDate: (state, action) => {
-            let {date} = action.payload;
-            let {status} = action.payload;
-            const index = state.dailyStatistics.findIndex((element) => element.date === date);
-            state.dailyStatistics[index] = JSON.parse (`{"date": "${date}", "status": ${status}}`);
-            // console.log(state.dailyStatistics);
+            let {year, month, day, status} = action.payload;
+            let index = state.dailyStatistics[year][month].findIndex((element) => element.day === day);
+            let dayOfWeek = state.dailyStatistics[year][month][index].dayOfWeek;
+            state.dailyStatistics[year][month][index] = {day, dayOfWeek, status};
+            // const index = state.dailyStatistics.findIndex((element) => element.date === date);
+            // state.dailyStatistics[index] = JSON.parse (`{"date": "${date}", "status": ${status}}`);
+            console.log(state.dailyStatistics);
         },
         dailySetPreviousDate: (state, action) => {
             state.dailyPreviousDate = action.payload;
