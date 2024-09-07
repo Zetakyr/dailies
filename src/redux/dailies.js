@@ -58,7 +58,13 @@ export const dailiesSlice = createSlice({
             if (!state.dailyStatistics[year][month]) {
                 state.dailyStatistics[year][month] = [];
             }
-            state.dailyStatistics[year][month].push({day, dayOfWeek, status});
+            let index = state.dailyStatistics[year][month].findIndex((element) => element.day === day);
+            if (index === -1) {
+                state.dailyStatistics[year][month].push({day, dayOfWeek, status});
+            }
+            else {
+                state.dailyStatistics[year][month][index] = {day, dayOfWeek, status};
+            }
             console.log(state.dailyStatistics);
         },
         dailyEditDate: (state, action) => {
