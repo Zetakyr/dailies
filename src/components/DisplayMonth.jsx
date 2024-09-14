@@ -51,7 +51,8 @@ const DisplayMonth = ({ year, month }) => {
 
   //for each day in the monthData, set the status to appropriate status
   for (let i = 0; i < Object.keys(monthData).length; i++) {
-    let index = Math.floor((monthData[i].day-1)/7+monthData[i].dayOfWeek);
+    // let index = Math.floor((monthData[i].day-1)/7+monthData[i].dayOfWeek);
+    let index = (Math.ceil((monthData[i].day)/7)-1)*7+monthData[i].dayOfWeek;
     dayBox[index].status = monthData[i].status;
 
 
